@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PackageId>OrionResult</PackageId>
+    <Description>One error-model vocabulary for the Orion family: a zero-alloc Result&lt;T&gt; struct, Option&lt;T&gt;, and a structured Error (code + kind + field errors) so expected failures flow as data, not as exceptions. Map/Bind/Match/Ensure railway composition, implicit conversions, and the family's IOrionResult contract. AOT- and trim-clean.</Description>
+    <PackageTags>orion;result;option;error;railway;functional;monad;dotnet</PackageTags>
+    <RootNamespace>Moongazing.OrionResult</RootNamespace>
+    <IsAotCompatible>true</IsAotCompatible>
+    <!--
+      CA1716: 'Error' and 'Option' collide with VB keywords, but they are the intended public
+      names - every Result library spells them this way and C# discoverability wins over sparing
+      a VB implementer one bracketed identifier. CA1000: Option<T>.Some / Option<T>.None are the
+      idiomatic option factory members; the non-generic Option.Some<T>/None<T> exist alongside.
+    -->
+    <NoWarn>$(NoWarn);CA1716;CA1000</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Orion.Abstractions" Version="1.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="Moongazing.OrionResult.Tests" />
+  </ItemGroup>
+</Project>
