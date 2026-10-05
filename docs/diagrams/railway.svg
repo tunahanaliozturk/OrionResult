@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="540" viewBox="0 0 1200 540">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#64748b"/>
+    </marker>
+    <marker id="arrow-fail" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#dc2626"/>
+    </marker>
+  </defs>
+  <style>
+    text { font-family: "Segoe UI", Inter, "Helvetica Neue", Arial, sans-serif; fill: #1e1b4b; }
+    .title { font-size: 24px; font-weight: 700; }
+    .subtitle { font-size: 14px; fill: #475569; }
+    .label { font-size: 15px; font-weight: 600; }
+    .small { font-size: 12.5px; fill: #475569; }
+    .code { font-family: "Cascadia Code", Consolas, "SF Mono", monospace; font-size: 13px; fill: #3730a3; }
+    .edge { font-size: 12.5px; fill: #334155; }
+    .step { fill: #eef2ff; stroke: #4f46e5; stroke-width: 2; }
+    .ext { fill: #f0f9ff; stroke: #0284c7; stroke-width: 2; }
+    .ok { fill: #ecfdf5; stroke: #059669; stroke-width: 2; }
+    .fail { fill: #fef2f2; stroke: #dc2626; stroke-width: 2; }
+    .decision { fill: #fffbeb; stroke: #d97706; stroke-width: 2; }
+    .note { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1.5; stroke-dasharray: 4 3; }
+    .lane { stroke: #cbd5e1; stroke-width: 1.5; stroke-dasharray: 6 5; }
+    .flow { fill: none; stroke: #64748b; stroke-width: 2; marker-end: url(#arrow); }
+    .flow.alt { stroke: #dc2626; stroke-dasharray: 6 4; marker-end: url(#arrow-fail); }
+    .flow.back { stroke-dasharray: 6 4; }
+    .badge { fill: #4f46e5; }
+    .badge-text { font-size: 12px; font-weight: 700; fill: #ffffff; }
+  </style>
+
+  <rect width="1200" height="540" fill="#ffffff"/>
+
+  <text class="title" x="40" y="52">OrionResult - railway composition</text>
+  <text class="subtitle" x="40" y="78">Each step runs only on the success track. The first failure skips every later step and reaches Match unchanged.</text>
+
+  <text class="edge" x="40" y="140">success track</text>
+
+  <!-- 1 FindUser -->
+  <rect class="step" x="40" y="180" width="170" height="76" rx="14"/>
+  <text class="code" x="125" y="213" text-anchor="middle">FindUser(id)</text>
+  <text class="small" x="125" y="235" text-anchor="middle">returns Result&lt;User&gt;</text>
+  <circle class="badge" cx="40" cy="180" r="12"/>
+  <text class="badge-text" x="40" y="184" text-anchor="middle">1</text>
+
+  <path class="flow" d="M210,218 L258,218"/>
+
+  <!-- 2 Ensure -->
+  <rect class="step" x="260" y="180" width="170" height="76" rx="14"/>
+  <text class="code" x="345" y="213" text-anchor="middle">Ensure</text>
+  <text class="small" x="345" y="235" text-anchor="middle">predicate on the value</text>
+  <circle class="badge" cx="260" cy="180" r="12"/>
+  <text class="badge-text" x="260" y="184" text-anchor="middle">2</text>
+
+  <path class="flow" d="M430,218 L478,218"/>
+
+  <!-- 3 Bind -->
+  <rect class="step" x="480" y="180" width="170" height="76" rx="14"/>
+  <text class="code" x="565" y="213" text-anchor="middle">Bind</text>
+  <text class="small" x="565" y="235" text-anchor="middle">next Result step</text>
+  <circle class="badge" cx="480" cy="180" r="12"/>
+  <text class="badge-text" x="480" y="184" text-anchor="middle">3</text>
+
+  <path class="flow" d="M650,218 L698,218"/>
+
+  <!-- 4 Map -->
+  <rect class="step" x="700" y="180" width="170" height="76" rx="14"/>
+  <text class="code" x="785" y="213" text-anchor="middle">Map</text>
+  <text class="small" x="785" y="235" text-anchor="middle">transform the value</text>
+  <circle class="badge" cx="700" cy="180" r="12"/>
+  <text class="badge-text" x="700" y="184" text-anchor="middle">4</text>
+
+  <path class="flow" d="M870,218 L918,218"/>
+
+  <!-- 5 Match -->
+  <rect class="ok" x="920" y="180" width="240" height="236" rx="14"/>
+  <text class="code" x="1040" y="250" text-anchor="middle">Match(onSuccess,</text>
+  <text class="code" x="1040" y="268" text-anchor="middle">onFailure)</text>
+  <text class="small" x="1040" y="300" text-anchor="middle">success: onSuccess(value)</text>
+  <text class="small" x="1040" y="320" text-anchor="middle">failure: onFailure(Errors)</text>
+  <text class="small" x="1040" y="352" text-anchor="middle">both return one TOut</text>
+  <circle class="badge" cx="920" cy="180" r="12"/>
+  <text class="badge-text" x="920" y="184" text-anchor="middle">5</text>
+
+  <!-- failure drops -->
+  <path class="flow alt" d="M125,256 L125,376"/>
+  <text class="edge" x="135" y="316">Error.NotFound</text>
+  <path class="flow alt" d="M345,256 L345,376"/>
+  <text class="edge" x="355" y="316">ifFalse</text>
+  <path class="flow alt" d="M565,256 L565,376"/>
+  <text class="edge" x="575" y="316">step failed</text>
+  <text class="small" x="785" y="300" text-anchor="middle">Map cannot fail;</text>
+  <text class="small" x="785" y="318" text-anchor="middle">it only forwards a failure</text>
+
+  <!-- failure track -->
+  <path class="flow alt" d="M125,380 L918,380"/>
+  <text class="edge" x="520" y="406" text-anchor="middle">failure track: later steps do not run; the same Error[] reaches Match</text>
+
+  <!-- note -->
+  <rect class="note" x="40" y="444" width="1120" height="66" rx="10"/>
+  <text class="small" x="60" y="472">Tap(action) runs a side effect on success and returns the result unchanged. Switch(onSuccess, onFailure) runs one of two actions.</text>
+  <text class="small" x="60" y="492">OrElse(fallback) returns the value, or the fallback on failure. Value throws InvalidOperationException on a failure.</text>
+</svg>
