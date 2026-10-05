@@ -5,6 +5,7 @@
     <PackageTags>orion;result;option;error;railway;functional;monad;dotnet</PackageTags>
     <RootNamespace>Moongazing.OrionResult</RootNamespace>
     <IsAotCompatible>true</IsAotCompatible>
+    <PackageReadmeFile>docs/README.md</PackageReadmeFile>
     <!--
       CA1716: 'Error' and 'Option' collide with VB keywords, but they are the intended public
       names - every Result library spells them this way and C# discoverability wins over sparing
@@ -15,6 +16,9 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Orion.Abstractions" Version="1.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="docs/README.md" Pack="true" PackagePath="docs/" />
   </ItemGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="Moongazing.OrionResult.Tests" />
